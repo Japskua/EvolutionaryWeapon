@@ -54,7 +54,7 @@ namespace Platformer
         // levels in our content are 0-based and that all numbers under this constant
         // have a level file present. This allows us to not need to check for the file
         // or handle exceptions, both of which can add unnecessary time to level loading.
-        private const int numberOfLevels = 4;
+        private const int numberOfLevels = 3;
 
         public PlatformerGame()
         {
@@ -187,19 +187,20 @@ namespace Platformer
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
 
-            spriteBatch.Begin();
 
             level.Draw(gameTime, spriteBatch);
 
             DrawHud();
 
-            spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
         private void DrawHud()
         {
+            spriteBatch.Begin();
+            spriteBatch.End();
+
             Rectangle titleSafeArea = GraphicsDevice.Viewport.TitleSafeArea;
             Vector2 hudLocation = new Vector2(titleSafeArea.X, titleSafeArea.Y);
             Vector2 center = new Vector2(titleSafeArea.X + titleSafeArea.Width / 2.0f,
@@ -249,16 +250,20 @@ namespace Platformer
 
             if (status != null)
             {
+                spriteBatch.Begin();
                 // Draw status message.
                 Vector2 statusSize = new Vector2(status.Width, status.Height);
                 spriteBatch.Draw(status, center - statusSize / 2, Color.White);
+                spriteBatch.End();
             }
         }
 
         private void DrawShadowedString(SpriteFont font, string value, Vector2 position, Color color)
         {
+            spriteBatch.Begin();
             spriteBatch.DrawString(font, value, position + new Vector2(1.0f, 1.0f), Color.Black);
             spriteBatch.DrawString(font, value, position, color);
+            spriteBatch.End();
         }
     }
 }

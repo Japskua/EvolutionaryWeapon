@@ -76,6 +76,7 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="Gem.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="Layer.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="MovableTile.cs" />
     <Compile Include="PlatformerGame.cs" />

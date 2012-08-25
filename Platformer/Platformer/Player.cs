@@ -306,7 +306,7 @@ namespace Platformer
                     bullet.position += bullet.velocity;
                     //Rectangle the size of the screen so bullets that
                     //fly off screen are deleted.
-                    Rectangle screenRect = new Rectangle(0, 0, 1280, 720);
+                    Rectangle screenRect = new Rectangle(0, 0, level.WidthInPixels, level.HeightInPixels);
                     if (!screenRect.Contains(new Point(
                         (int)bullet.position.X,
                         (int)bullet.position.Y)))
@@ -419,19 +419,20 @@ namespace Platformer
             gun.rotation = (float)Math.Atan2(gamePadState.ThumbSticks.Right.X, gamePadState.ThumbSticks.Right.Y);
 
             // Handle the mouse rotation here
-            
+            //distance.X = mouseState.X - gun.position.X;
+            //distance.Y = mouseState.Y - gun.position.Y;
 
-            // Ignore gamepad and handle the input from mouse
-            //gun.rotation = (float)Math.Atan2(mouseState.X, mouseState.Y);
-
-            distance.X = mouseState.X - gun.position.X;
+            distance.X = mouseState.X + level.cameraPosition - gun.position.X;
             distance.Y = mouseState.Y - gun.position.Y;
 
-            distance.Normalize();
+
+
+            //distance.Normalize();
             gun.rotation = (float)Math.Atan2(distance.Y, distance.X) + 1.5f;
 
-            Console.WriteLine("Rotation=" + gun.rotation.ToString());
-
+            //Console.WriteLine("Distance=" + distance);
+            //Console.WriteLine("Rotation=" + gun.rotation.ToString());
+            //Console.WriteLine("CameraPosition=" + level.cameraPosition);
 
             // If facing right
             if (flip == SpriteEffects.FlipHorizontally)
@@ -456,8 +457,8 @@ namespace Platformer
                     flip = SpriteEffects.None;
 
                 // Otherwise, aim
-                //if (gun.rotation == 0 && Math.Abs(gamePadState.ThumbSticks.Right.Length()) < 0.5f)
-                //    gun.rotation = -MathHelper.PiOver2;
+                if (gun.rotation == 0 && Math.Abs(gamePadState.ThumbSticks.Right.Length()) < 0.5f)
+                    gun.rotation = -MathHelper.PiOver2;
 
             }
 
@@ -466,9 +467,11 @@ namespace Platformer
                 FireBullet();
 
             // Shoot = Left Mousebutton
-            if (mouseState.LeftButton == ButtonState.Pressed && 
+            if (mouseState.LeftButton == ButtonState.Pressed &&
                 previousMouseState.LeftButton == ButtonState.Released)
+            {
                 FireBullet();
+            }
 
 
 
