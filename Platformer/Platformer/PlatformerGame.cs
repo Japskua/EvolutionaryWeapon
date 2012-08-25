@@ -48,6 +48,7 @@ namespace Platformer
         private KeyboardState keyboardState;
         private TouchCollection touchState;
         private AccelerometerState accelerometerState;
+        private MouseState mouseState;
         
         // The number of levels in the Levels directory of our content. We assume that
         // levels in our content are 0-based and that all numbers under this constant
@@ -64,6 +65,8 @@ namespace Platformer
             graphics.IsFullScreen = true;
             TargetElapsedTime = TimeSpan.FromTicks(333333);
 #endif
+            // Set mouse to be visible
+            IsMouseVisible = true;
 
             Accelerometer.Initialize();
         }
@@ -109,9 +112,10 @@ namespace Platformer
             // Handle polling for our input and handling high-level input
             HandleInput();
 
+            mouseState = Mouse.GetState();
             // update our level, passing down the GameTime along with all of our input states
             level.Update(gameTime, keyboardState, gamePadState, touchState, 
-                         accelerometerState, Window.CurrentOrientation);
+                         accelerometerState, Window.CurrentOrientation, mouseState);
 
             base.Update(gameTime);
         }
@@ -220,6 +224,10 @@ namespace Platformer
             // Draw score
             float timeHeight = hudFont.MeasureString(timeString).Y;
             DrawShadowedString(hudFont, "SCORE: " + level.Score.ToString(), hudLocation + new Vector2(0.0f, timeHeight * 1.2f), Color.Yellow);
+
+            // Draw the Mouse Position debug info
+            string mouseStateString = "MouseState X: " + mouseState.X + " Y: " + mouseState.Y;
+            DrawShadowedString(hudFont, mouseStateString, hudLocation + new Vector2(0.0f, timeHeight * 2.4f), Color.Yellow);
            
             // Determine the status overlay message to show.
             Texture2D status = null;

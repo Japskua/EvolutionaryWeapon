@@ -42,6 +42,16 @@ namespace Platformer
         }
         Vector2 position;
 
+        /// <summary>
+        /// Alive value, so the enemy can be killed as well
+        /// </summary>
+        public bool Alive
+        {
+            get { return alive; }
+            set { alive = value; }
+        }
+        bool alive;
+
         private Rectangle localBounds;
         /// <summary>
         /// Gets a rectangle which bounds this enemy in world space.
@@ -60,6 +70,7 @@ namespace Platformer
         // Animations
         private Animation runAnimation;
         private Animation idleAnimation;
+        private Animation dieAnimation;
         private AnimationPlayer sprite;
 
         /// <summary>
@@ -89,6 +100,8 @@ namespace Platformer
         {
             this.level = level;
             this.position = position;
+            // Set the enemy to be alive as well
+            this.alive = true;
 
             LoadContent(spriteSet);
         }

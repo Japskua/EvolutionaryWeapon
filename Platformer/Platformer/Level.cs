@@ -40,7 +40,7 @@ namespace Platformer
         Player player;
 
         private List<Gem> gems = new List<Gem>();
-        private List<Enemy> enemies = new List<Enemy>();
+        public List<Enemy> enemies = new List<Enemy>();
 
         // Key locations in the level.        
         private Vector2 start;
@@ -378,7 +378,8 @@ namespace Platformer
             GamePadState gamePadState, 
             TouchCollection touchState, 
             AccelerometerState accelState,
-            DisplayOrientation orientation)
+            DisplayOrientation orientation,
+            MouseState mouseState)
         {
             // Pause while the player is dead or time is expired.
             if (!Player.IsAlive || TimeRemaining == TimeSpan.Zero)
@@ -397,7 +398,7 @@ namespace Platformer
             else
             {
                 timeRemaining -= gameTime.ElapsedGameTime;
-                Player.Update(gameTime, keyboardState, gamePadState, touchState, accelState, orientation);
+                Player.Update(gameTime, keyboardState, gamePadState, touchState, accelState, orientation, mouseState);
                 UpdateGems(gameTime);
 
                 // Falling off the bottom of the level kills the player.
@@ -448,12 +449,16 @@ namespace Platformer
         {
             foreach (Enemy enemy in enemies)
             {
-                enemy.Update(gameTime);
-
-                // Touching an enemy instantly kills the player
-                if (enemy.BoundingRectangle.Intersects(Player.BoundingRectangle))
+                // If the enemy is alive
+                if (enemy.Alive)
                 {
-                    OnPlayerKilled(enemy);
+                    enemy.Update(gameTime);
+
+                    // Touching an enemy instantly kills the player
+                    if (enemy.BoundingRectangle.Intersects(Player.BoundingRectangle))
+                    {
+                        OnPlayerKilled(enemy);
+                    }
                 }
             }
         }
