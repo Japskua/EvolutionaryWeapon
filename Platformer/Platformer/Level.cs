@@ -42,6 +42,8 @@ namespace Platformer
         private List<Gem> gems = new List<Gem>();
         public List<Enemy> enemies = new List<Enemy>();
 
+        public List<MovableTile> movableTiles = new List<MovableTile>();
+
         // Key locations in the level.        
         private Vector2 start;
         private Point exit = InvalidPosition;
@@ -205,6 +207,10 @@ namespace Platformer
                 case 'D':
                     return LoadEnemyTile(x, y, "MonsterD");
 
+                // Movable tile
+                case 'M':
+                    return LoadMovableTile(x, y, TileCollision.Platform);
+
                 // Platform block
                 case '~':
                     return LoadVarietyTile("BlockB", 2, TileCollision.Platform);
@@ -225,6 +231,20 @@ namespace Platformer
                 default:
                     throw new NotSupportedException(String.Format("Unsupported tile type character '{0}' at position {1}, {2}.", tileType, x, y));
             }
+        }
+
+        /// <summary>
+        /// Creates the movable tile
+        /// </summary>
+        /// <param name="x">x position</param>
+        /// <param name="y">y position</param>
+        /// <param name="collision">What kind of collision it can take</param>
+        /// <returns>Loaded tile</returns>
+        private Tile LoadMovableTile(int x, int y, TileCollision collision)
+        {
+            Point position = GetBounds(x, y).Center;
+            movableTiles.Add(new MovableTile(this, new Vector2(position.X, position.Y), collision));
+            return new Tile(null, TileCollision.Passable);
         }
 
         /// <summary>
@@ -407,6 +427,8 @@ namespace Platformer
 
                 UpdateEnemies(gameTime);
 
+                UpdateMovableTiles(gameTime);
+
                 // The player has reached the exit if they are standing on the ground and
                 // his bounding rectangle contains the center of the exit tile. They can only
                 // exit when they have collected all of the gems.
@@ -421,6 +443,23 @@ namespace Platformer
             // Clamp the time remaining at zero.
             if (timeRemaining < TimeSpan.Zero)
                 timeRemaining = TimeSpan.Zero;
+        }
+
+        /// <summary>
+        /// Updates the movable tile by moving it
+        /// </summary>
+        /// <param name="gameTime"></param>
+        private void UpdateMovableTiles(GameTime gameTime)
+        {
+            foreach (MovableTile tile in movableTiles)
+            {
+                tile.Update(gameTime);
+                if (tile.PlayerIsOn)
+                {
+                    //Make player move with tile if the player is on top of tile
+                    player.Position += tile.Velocity;
+                }
+            }
         }
 
         /// <summary>
@@ -518,6 +557,10 @@ namespace Platformer
                 spriteBatch.Draw(layers[i], Vector2.Zero, Color.White);
 
             DrawTiles(spriteBatch);
+
+            // Draw the movable tiles here
+            foreach (MovableTile tile in movableTiles)
+                tile.Draw(gameTime, spriteBatch);
 
             foreach (Gem gem in gems)
                 gem.Draw(gameTime, spriteBatch);

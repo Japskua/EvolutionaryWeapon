@@ -590,6 +590,21 @@ namespace Platformer
             // Reset flag to search for ground collision.
             isOnGround = false;
 
+            //For each potentially colliding movable tile.
+            foreach (var movableTile in level.movableTiles)
+            {
+                // Reset flag to search for movable tile collision.
+                movableTile.PlayerIsOn = false;
+                //check to see if player is on tile.
+                if ((BoundingRectangle.Bottom == movableTile.BoundingRectangle.Top + 1) &&
+                    (BoundingRectangle.Left >= movableTile.BoundingRectangle.Left - (BoundingRectangle.Width / 2) &&
+                    BoundingRectangle.Right <= movableTile.BoundingRectangle.Right + (BoundingRectangle.Width / 2)))
+                {
+                    movableTile.PlayerIsOn = true;
+                }
+                bounds = HandleCollision(bounds, movableTile.Collision, movableTile.BoundingRectangle);
+            }
+
             // For each potentially colliding tile,
             for (int y = topTile; y <= bottomTile; ++y)
             {
@@ -640,6 +655,43 @@ namespace Platformer
             // Save the new bounds bottom.
             previousBottom = bounds.Bottom;
         }
+
+        private Rectangle HandleCollision(Rectangle bounds, TileCollision collision, Rectangle tileBounds)
+        {
+            Vector2 depth = RectangleExtensions.GetIntersectionDepth(bounds, tileBounds);
+            if (depth != Vector2.Zero)
+            {
+                float absDepthX = Math.Abs(depth.X);
+                float absDepthY = Math.Abs(depth.Y);
+
+                // Resolve the collision along the shallow axis.
+                if (absDepthY < absDepthX || collision == TileCollision.Platform)
+                {
+                    // If we crossed the top of a tile, we are on the ground.
+                    if (previousBottom <= tileBounds.Top)
+                        isOnGround = true;
+                    // Ignore platforms, unless we are on the ground.
+                    if (collision == TileCollision.Impassable || IsOnGround)
+                    {
+                        // Resolve the collision along the Y axis.
+                        Position = new Vector2(Position.X, Position.Y + depth.Y);
+                        // Perform further collisions with the new bounds.
+                        bounds = BoundingRectangle;
+                    }
+                }
+                else if (collision == TileCollision.Impassable) // Ignore platforms.
+                {
+                    // Resolve the collision along the X axis.
+                    Position = new Vector2(Position.X + depth.X, Position.Y);
+                    // Perform further collisions with the new bounds.
+                    bounds = BoundingRectangle;
+                }
+            }
+            return bounds;
+
+        }
+
+    
 
         /// <summary>
         /// Called when the player has been killed.
