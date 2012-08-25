@@ -91,6 +91,9 @@ namespace Platformer
         private const float AccelerometerScale = 1.5f;
         private const Buttons JumpButton = Buttons.A;
 
+        // Used for calculating the mouse distance
+        Vector2 distance;
+
         /// <summary>
         /// Gets whether or not the player's feet are on the ground.
         /// </summary>
@@ -415,8 +418,20 @@ namespace Platformer
             // GAMEPAD
             gun.rotation = (float)Math.Atan2(gamePadState.ThumbSticks.Right.X, gamePadState.ThumbSticks.Right.Y);
 
+            // Handle the mouse rotation here
+            
+
             // Ignore gamepad and handle the input from mouse
-            gun.rotation = (float)Math.Atan2(mouseState.X, mouseState.Y);
+            //gun.rotation = (float)Math.Atan2(mouseState.X, mouseState.Y);
+
+            distance.X = mouseState.X - gun.position.X;
+            distance.Y = mouseState.Y - gun.position.Y;
+
+            distance.Normalize();
+            gun.rotation = (float)Math.Atan2(distance.Y, distance.X) + 1.5f;
+
+            Console.WriteLine("Rotation=" + gun.rotation.ToString());
+
 
             // If facing right
             if (flip == SpriteEffects.FlipHorizontally)
@@ -430,7 +445,7 @@ namespace Platformer
                 // to default position, aiming in front of the player
                 if (gun.rotation == 0 && Math.Abs(gamePadState.ThumbSticks.Right.Length()) < 0.5f)
                     gun.rotation = MathHelper.PiOver2;
-
+                
             }
 
             // Otherwise, we are facing left
@@ -441,8 +456,8 @@ namespace Platformer
                     flip = SpriteEffects.None;
 
                 // Otherwise, aim
-                if (gun.rotation == 0 && Math.Abs(gamePadState.ThumbSticks.Right.Length()) < 0.5f)
-                    gun.rotation = -MathHelper.PiOver2;
+                //if (gun.rotation == 0 && Math.Abs(gamePadState.ThumbSticks.Right.Length()) < 0.5f)
+                //    gun.rotation = -MathHelper.PiOver2;
 
             }
 
