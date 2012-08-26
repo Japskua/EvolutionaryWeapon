@@ -194,8 +194,8 @@
       <Name>_1</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Levels\0.txt">
-      <Name>0</Name>
+    <None Include="Levels\1.txt">
+      <Name>1</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="Overlays\you_died.png">
@@ -215,9 +215,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Levels\1.txt">
+    <None Include="Levels\0.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>1</Name>
+      <Name>0</Name>
     </None>
   </ItemGroup>
   <ItemGroup>
