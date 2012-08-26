@@ -167,20 +167,20 @@ namespace Platformer
             if (Legs == true)
             {
                 // Load animated textures.
-                idleAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Idle_withlegs"), 0.1f, true);
-                runAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Run_withlegs"), 0.1f, true);
-                jumpAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Jump_withlegs"), 0.1f, false);
-                celebrateAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Celebrate_withlegs"), 0.1f, false);
-                dieAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Die_withlegs"), 0.1f, false);
+                idleAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/WithLegs/Idle_withlegs"), 0.1f, true);
+                runAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/WithLegs/Run_withlegs"), 0.1f, true);
+                jumpAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/WithLegs/Jump_withlegs"), 0.1f, false);
+                celebrateAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/WithLegs/Celebrate_withlegs"), 0.1f, false);
+                dieAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/WithLegs/Die_withlegs"), 0.1f, false);
             }
             else
             {
                 // Load animated textures.
-                idleAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Idle"), 0.1f, true);
-                runAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Run"), 0.1f, true);
-                jumpAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Jump"), 0.1f, false);
-                celebrateAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Celebrate"), 0.1f, false);
-                dieAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Die"), 0.1f, false);
+                idleAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Basic/Idle"), 0.1f, true);
+                runAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Basic/Run"), 0.1f, true);
+                jumpAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Basic/Jump"), 0.1f, false);
+                celebrateAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Basic/Celebrate"), 0.1f, false);
+                dieAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Basic/Die"), 0.1f, false);
             }
 
             // Calculate bounds within texture size.            
@@ -248,11 +248,11 @@ namespace Platformer
             // Handling the gun position correctly
             if (flip == SpriteEffects.FlipHorizontally)
             {
-                gun.position = new Vector2(position.X + 5, position.Y - 60);
+                gun.position = new Vector2(position.X, position.Y - 45);
             }
             else
             {
-                gun.position = new Vector2(position.X - 5, position.Y - 60);
+                gun.position = new Vector2(position.X, position.Y - 45);
             }
 
             // Update the bullets
