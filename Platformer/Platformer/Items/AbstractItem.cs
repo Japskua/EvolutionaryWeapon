@@ -20,7 +20,7 @@ namespace Platformer.Items
         protected Vector2 basePosition;
         protected float bounce;
 
-        public const int PointValue = 30;
+        public int PointValue = 30;
         public readonly Color Color = Color.Yellow;
 
         public Level Level

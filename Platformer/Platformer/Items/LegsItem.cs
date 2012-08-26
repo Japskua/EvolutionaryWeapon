@@ -6,11 +6,9 @@ using Microsoft.Xna.Framework;
 
 namespace Platformer.Items
 {
-    class GunItem : AbstractItem
+    class LegsItem : AbstractItem
     {
-
-
-        public GunItem(Level level, Vector2 position, string name)
+        public LegsItem(Level level, Vector2 position, string name)
         {
             
             this.level = level;

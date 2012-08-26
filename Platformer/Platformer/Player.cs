@@ -139,9 +139,8 @@ namespace Platformer
         {
             this.level = level;
 
-            Legs = true;
-            Hands = false;
-            Laser = false;
+            Laser = EvolutionManager.Instance.HasGun;
+            Legs = EvolutionManager.Instance.HasLegs;
 
             LoadContent();
 

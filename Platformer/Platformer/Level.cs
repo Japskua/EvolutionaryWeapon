@@ -220,6 +220,10 @@ namespace Platformer
                 case 'Z':
                     return LoadGunItemTile(x, y);
 
+                // Legs
+                case 'L':
+                    return LoadLegsItemTile(x, y);
+
                 // Floating platform
                 case '-':
                     return LoadTile("Platform", TileCollision.Platform);
@@ -329,6 +333,9 @@ namespace Platformer
             start = RectangleExtensions.GetBottomCenter(GetBounds(x, y));
             player = new Player(this, start);
 
+            // Setup the player here
+            EvolutionManager.Instance.SetupPlayer(player);
+
             return new Tile(null, TileCollision.Passable);
         }
 
@@ -356,10 +363,30 @@ namespace Platformer
             return new Tile(null, TileCollision.Passable);
         }
 
+        /// <summary>
+        /// Loads the Gun item tile
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         private Tile LoadGunItemTile(int x, int y)
         {
             Point position = GetBounds(x, y).Center;
             items.Add(new GunItem(this, new Vector2(position.X, position.Y), "Gun"));
+
+            return new Tile(null, TileCollision.Passable);
+        }
+
+        /// <summary>
+        /// Loads the Legs item tile
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        private Tile LoadLegsItemTile(int x, int y)
+        {
+            Point position = GetBounds(x, y).Center;
+            items.Add(new LegsItem(this, new Vector2(position.X, position.Y), "Legs"));
 
             return new Tile(null, TileCollision.Passable);
         }
@@ -597,6 +624,24 @@ namespace Platformer
 
         private void OnItemCollected(AbstractItem item, Player collectedBy)
         {
+            // Check what was collected
+            Console.WriteLine("Found item of type:" + item.GetType());
+            if (item is GunItem)
+            {
+                EvolutionManager.Instance.HasGun = true;
+                // Update the player
+                EvolutionManager.Instance.SetupPlayer(player);
+                player.LoadContent();
+                
+            }
+            else if (item is LegsItem)
+            {
+                // Set legs to true
+                EvolutionManager.Instance.HasLegs = true;
+                // Update the player
+                EvolutionManager.Instance.SetupPlayer(player);
+                player.LoadContent();
+            }
 
             item.OnCollected(collectedBy);
         }
