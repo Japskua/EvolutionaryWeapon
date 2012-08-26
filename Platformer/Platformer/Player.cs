@@ -73,6 +73,10 @@ namespace Platformer
         }
         Vector2 velocity;
 
+        public bool Legs;
+        public bool Laser;
+        public bool Hands;
+
         // Constants for controling horizontal movement
         private const float MoveAcceleration = 13000.0f;
         private const float MaxMoveSpeed = 1750.0f;
@@ -135,6 +139,10 @@ namespace Platformer
         {
             this.level = level;
 
+            Legs = true;
+            Hands = false;
+            Laser = false;
+
             LoadContent();
 
             Reset(position);
@@ -154,12 +162,26 @@ namespace Platformer
                 bullets[i] = new GameObject(Level.Content.Load<Texture2D>("Sprites/Player/Bullet"));
             }
 
-            // Load animated textures.
-            idleAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Idle"), 0.1f, true);
-            runAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Run"), 0.1f, true);
-            jumpAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Jump"), 0.1f, false);
-            celebrateAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Celebrate"), 0.1f, false);
-            dieAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Die"), 0.1f, false);
+
+            // Load correct animations 
+            if (Legs == true)
+            {
+                // Load animated textures.
+                idleAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Idle_withlegs"), 0.1f, true);
+                runAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Run_withlegs"), 0.1f, true);
+                jumpAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Jump_withlegs"), 0.1f, false);
+                celebrateAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Celebrate_withlegs"), 0.1f, false);
+                dieAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Die_withlegs"), 0.1f, false);
+            }
+            else
+            {
+                // Load animated textures.
+                idleAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Idle"), 0.1f, true);
+                runAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Run"), 0.1f, true);
+                jumpAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Jump"), 0.1f, false);
+                celebrateAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Celebrate"), 0.1f, false);
+                dieAnimation = new Animation(Level.Content.Load<Texture2D>("Sprites/Player/Die"), 0.1f, false);
+            }
 
             // Calculate bounds within texture size.            
             int width = (int)(idleAnimation.FrameWidth * 0.4);

@@ -108,9 +108,13 @@ namespace Platformer
             LoadTiles(fileStream);
 
             layers = new Layer[3];
-            layers[0] = new Layer(Content, "Backgrounds/Layer0", 0.2f);
-            layers[1] = new Layer(Content, "Backgrounds/Layer1", 0.5f);
-            layers[2] = new Layer(Content, "Backgrounds/Layer2", 0.8f);
+            //layers[0] = new Layer(Content, "Backgrounds/Layer0", 0.2f);
+            //layers[1] = new Layer(Content, "Backgrounds/Layer1", 0.5f);
+            //layers[2] = new Layer(Content, "Backgrounds/Layer2", 0.8f);
+
+            layers[0] = new Layer(Content, "Backgrounds/background", 0.2f);
+            layers[1] = new Layer(Content, "Backgrounds/background", 0.2f);
+            layers[2] = new Layer(Content, "Backgrounds/background", 0.2f);
 
             // Load background layer textures. For now, all levels must
             // use the same backgrounds and only use the left-most part of them.
@@ -234,6 +238,16 @@ namespace Platformer
                 // Passable block
                 case ':':
                     return LoadVarietyTile("BlockB", 2, TileCollision.Passable);
+
+                // The hand drawn images
+                case 'Q':
+                    return LoadTile("Block1", TileCollision.Impassable);
+
+                case 'W':
+                    return LoadTile("Block2", TileCollision.Platform);
+
+                case 'E':
+                    return LoadTile("Block3", TileCollision.Impassable);
 
                 // Player 1 start point
                 case '1':
