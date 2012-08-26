@@ -263,6 +263,9 @@ namespace Platformer
         /// </summary>
         private void FireBullet()
         {
+            if (Laser == false)
+                return;
+
             foreach (GameObject bullet in bullets)
             {
                 // Find a bullet that is not alive
@@ -773,7 +776,7 @@ namespace Platformer
             }
 
             // Draw the arm on top of the player!
-            if (IsAlive)
+            if (IsAlive && Laser)
             {
                 spriteBatch.Draw(
                     gun.sprite,
