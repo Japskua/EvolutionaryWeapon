@@ -42,6 +42,8 @@ namespace XNAPlatformerLevelEditor
             {'Q', "/Tiles/Block1.png"},
             {'W', "/Tiles/Block2.png"},
             {'E', "/Tiles/Block3.png"},
+            {'Z', "/Sprites/Gun.png"},
+            {'L', "/Sprites/Legs.png"},
         };
 
         string pathToContentFolder = "D:/Projects/EvolutionaryWeapon/Platformer/Content";

@@ -190,12 +190,12 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <None Include="Levels\1.txt">
-      <Name>1</Name>
+    <None Include="Levels\_1.txt">
+      <Name>_1</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Levels\2.txt">
-      <Name>2</Name>
+    <None Include="Levels\0.txt">
+      <Name>0</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="Overlays\you_died.png">
@@ -215,9 +215,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Levels\0.txt">
+    <None Include="Levels\1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>0</Name>
+      <Name>1</Name>
     </None>
   </ItemGroup>
   <ItemGroup>
