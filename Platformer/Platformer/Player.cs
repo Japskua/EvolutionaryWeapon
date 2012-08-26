@@ -435,6 +435,10 @@ namespace Platformer
                 keyboardState.IsKeyDown(Keys.W) ||
                 touchState.AnyTouch();
 
+            // If the player doesn't have legs, jumping is not possible
+            if (Legs == false)
+                isJumping = false;
+
             // Controlling the player gun arm, with the 
             // GAMEPAD
             gun.rotation = (float)Math.Atan2(gamePadState.ThumbSticks.Right.X, gamePadState.ThumbSticks.Right.Y);
