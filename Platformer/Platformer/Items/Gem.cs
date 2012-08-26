@@ -17,7 +17,7 @@ namespace Platformer
     /// <summary>
     /// A valuable item the player can collect.
     /// </summary>
-    class Gem
+    class Gem : IItem
     {
         private Texture2D texture;
         private Vector2 origin;
@@ -45,6 +45,7 @@ namespace Platformer
             {
                 return basePosition + new Vector2(0.0f, bounce);
             }
+            
         }
 
         /// <summary>

@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework.Audio;
 using System.IO;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Input;
+using Platformer.Items;
 
 namespace Platformer
 {
@@ -46,6 +47,7 @@ namespace Platformer
         Player player;
 
         private List<Gem> gems = new List<Gem>();
+        private List<AbstractItem> items = new List<AbstractItem>();
         public List<Enemy> enemies = new List<Enemy>();
 
         public List<MovableTile> movableTiles = new List<MovableTile>();
@@ -213,6 +215,11 @@ namespace Platformer
                 case 'G':
                     return LoadGemTile(x, y);
 
+
+                // Gun
+                case 'Z':
+                    return LoadGunItemTile(x, y);
+
                 // Floating platform
                 case '-':
                     return LoadTile("Platform", TileCollision.Platform);
@@ -349,6 +356,14 @@ namespace Platformer
             return new Tile(null, TileCollision.Passable);
         }
 
+        private Tile LoadGunItemTile(int x, int y)
+        {
+            Point position = GetBounds(x, y).Center;
+            items.Add(new GunItem(this, new Vector2(position.X, position.Y), "Gun"));
+
+            return new Tile(null, TileCollision.Passable);
+        }
+
         /// <summary>
         /// Instantiates a gem and puts it in the level.
         /// </summary>
@@ -466,6 +481,7 @@ namespace Platformer
                 timeRemaining -= gameTime.ElapsedGameTime;
                 Player.Update(gameTime, keyboardState, gamePadState, touchState, accelState, orientation, mouseState);
                 UpdateGems(gameTime);
+                UpdateItems(gameTime);
 
                 // Falling off the bottom of the level kills the player.
                 if (Player.BoundingRectangle.Top >= Height * Tile.Height)
@@ -528,6 +544,25 @@ namespace Platformer
         }
 
         /// <summary>
+        /// Animates each item and checks to allows the player to collect them.
+        /// </summary>
+        private void UpdateItems(GameTime gameTime)
+        {
+            for (int i = 0; i < items.Count; ++i)
+            {
+                AbstractItem item = items[i];
+
+                item.Update(gameTime);
+
+                if (item.BoundingCircle.Intersects(Player.BoundingRectangle))
+                {
+                    items.RemoveAt(i--);
+                    OnItemCollected(item, Player);
+                }
+            }
+        }
+
+        /// <summary>
         /// Animates each enemy and allow them to kill the player.
         /// </summary>
         private void UpdateEnemies(GameTime gameTime)
@@ -558,6 +593,12 @@ namespace Platformer
             score += Gem.PointValue;
 
             gem.OnCollected(collectedBy);
+        }
+
+        private void OnItemCollected(AbstractItem item, Player collectedBy)
+        {
+
+            item.OnCollected(collectedBy);
         }
 
         /// <summary>
@@ -620,6 +661,9 @@ namespace Platformer
 
             foreach (Gem gem in gems)
                 gem.Draw(gameTime, spriteBatch);
+
+            foreach (AbstractItem item in items)
+                item.Draw(gameTime, spriteBatch);
 
             Player.Draw(gameTime, spriteBatch);
 

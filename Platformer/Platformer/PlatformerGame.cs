@@ -227,8 +227,8 @@ namespace Platformer
             DrawShadowedString(hudFont, "SCORE: " + level.Score.ToString(), hudLocation + new Vector2(0.0f, timeHeight * 1.2f), Color.Yellow);
 
             // Draw the Mouse Position debug info
-            string mouseStateString = "MouseState X: " + mouseState.X + " Y: " + mouseState.Y;
-            DrawShadowedString(hudFont, mouseStateString, hudLocation + new Vector2(0.0f, timeHeight * 2.4f), Color.Yellow);
+            //string mouseStateString = "MouseState X: " + mouseState.X + " Y: " + mouseState.Y;
+            //DrawShadowedString(hudFont, mouseStateString, hudLocation + new Vector2(0.0f, timeHeight * 2.4f), Color.Yellow);
            
             // Determine the status overlay message to show.
             Texture2D status = null;
